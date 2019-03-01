@@ -10,6 +10,8 @@ namespace TcpFileClient{
         private static TcpClient client = null;
         private static byte[] outputBuffer = new byte[1024];
         private static string outputString = null;
+        private static byte[] inputBuffer = new byte[4096];
+        private static string responseData = null;
  
         public static void Main(string[] args) {
             string serverIP = args[0];
@@ -41,22 +43,12 @@ namespace TcpFileClient{
 
                 Console.WriteLine("Requested file.");         
 
-                /* // Receive the TcpServer.response.
-                
-                // Buffer to store the response bytes.
-                data = new Byte[256];
-
-                // String to store the response ASCII representation.
-                String responseData = String.Empty;
-
                 // Read the first batch of the TcpServer response bytes.
-                Int32 bytes = stream.Read(data, 0, data.Length);
-                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-                Console.WriteLine("Received: {0}", responseData);         
-
-                // Close everything.
-                stream.Close();         
-                client.Close();          */
+                
+                stream.Read(inputBuffer, 0, inputBuffer.Length);
+                
+                responseData = System.Text.Encoding.ASCII.GetString(inputBuffer);
+                Console.WriteLine("Received: {0}", responseData);
             }
     }
 }
