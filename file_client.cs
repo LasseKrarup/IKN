@@ -11,7 +11,6 @@ namespace TcpFileClient{
         private static int port = 9000;
         private static TcpClient client = null;
         private static byte[] outputBuffer = new byte[1024];
-        private static string outputString = null;
         private static byte[] inputBuffer = new byte[4096];
         private static string receivedString = null;
  
@@ -66,8 +65,9 @@ namespace TcpFileClient{
             } else {
                 Console.WriteLine("File {0} exists and is {1} bytes large",path,receivedString);
 
-                outputBuffer = Encoding.ASCII.GetBytes("1");
-                stream.Write(outputBuffer,0,outputBuffer.Length); //ack
+                // outputBuffer = Encoding.ASCII.GetBytes("1");
+                // stream.Write(outputBuffer,0,outputBuffer.Length); //ack
+                SendAck(stream);
                 
                 // Create new byte array that is the size of the incoming file
                 byte[] truncatedBuffer = new byte[Convert.ToInt32(receivedString)];
@@ -81,7 +81,7 @@ namespace TcpFileClient{
             }
         }
 
-        private static Boolean SendAck()
+        private static void SendAck(NetworkStream stream)
         {
             outputBuffer = Encoding.ASCII.GetBytes("1");
             stream.Write(outputBuffer,0,outputBuffer.Length); //ack
