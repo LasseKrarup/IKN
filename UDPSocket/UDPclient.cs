@@ -47,13 +47,13 @@ namespace UDP
 
                     // Get response
                     receiveBytes = udpClient.Receive(ref server);
-                    string returnData = Encoding.ASCII.GetString(receiveBytes);
+                    returnData = Encoding.ASCII.GetString(receiveBytes);
                     Console.WriteLine("Received response from {0}: {1}", server.ToString(), returnData);
                     if (returnData == "200")
                     { //if OKAY response
                         // Get file
                         receiveBytes = udpClient.Receive(ref server);
-                        File.WriteAllBytes("received_" + path, receivedBytes);
+                        File.WriteAllBytes("received_file", receiveBytes);
                     }
                 }
 
