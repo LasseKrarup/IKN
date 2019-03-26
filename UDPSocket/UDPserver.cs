@@ -9,7 +9,7 @@ namespace UDP
     public class UDPServer
     {
         private static int PORT = 9000;
-
+        private string receivedString;
         public static void Main()
         {
             byte[] data = new byte[1024];
@@ -22,30 +22,39 @@ namespace UDP
             // Start server
             Console.WriteLine("Waiting for client connection...");
 
-            // Listen for ANY IP address on ANY available port (0)
-            IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
+            // Listen for connections on ANY IP address on ANY available port (0)
+            IPEndPoint client = new IPEndPoint(IPAddress.Any, 0);
 
             // Blocking (synchronous) receive
-            data = udpSocket.Receive(ref sender);
+            data = udpSocket.Receive(ref client);
 
-            Console.WriteLine("Message received from {0}:", sender.ToString());
+            Console.WriteLine("Message received from {0}:", client.ToString());
             Console.WriteLine(Encoding.ASCII.GetString(data, 0, data.Length));
 
             // Send connection response to client
             string connectMsg = "Connected to server";
             data = Encoding.ASCII.GetBytes(connectMsg);
-            udpSocket.Send(data, data.Length, sender);
+            udpSocket.Send(data, data.Length, client);
 
             while (true)
             {
                 // Handle requests
-                data = udpSocket.Receive(ref sender);
-                Console.WriteLine("Received message from {0}", sender.ToString());
+                data = udpSocket.Receive(ref client);
+                Console.WriteLine("Received message from {0}", client.ToString());
 
-                // Echo back request
-                Console.WriteLine(Encoding.ASCII.GetString(data, 0, data.Length));
-                udpSocket.Send(data, data.Length, sender);
-                Console.WriteLine("Echoed {1} back to {0}", data, sender.ToString());
+                receivedString = Encoding.ASCII.GetString(data, 0, data.Length).ToLower();
+                if (receivedString == "l")
+                {
+                    data = File.ReadAllBytes("/proc/loadavg");
+                }
+                else if (receivedString == "u")
+                {
+                    data = File.ReadAllBytes("/proc/uptime");
+                }
+
+                // If command is neither l, L, u or U, then echo back the received request
+
+                udpSocket.Send(data, data.Length, client);
             }
         }
     }
