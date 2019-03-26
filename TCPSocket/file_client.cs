@@ -65,8 +65,6 @@ namespace TcpFileClient{
             } else {
                 Console.WriteLine("File {0} exists and is {1} bytes large",path,receivedString);
 
-                // outputBuffer = Encoding.ASCII.GetBytes("1");
-                // stream.Write(outputBuffer,0,outputBuffer.Length); //ack
                 SendAck(stream);
                 
                 // Create new byte array that is the size of the incoming file

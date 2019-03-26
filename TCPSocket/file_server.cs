@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.IO;
 
 
-namespace TcpFileServer{
-    public class MyTcpServer{
+namespace TcpFileServer
+{
+    public class MyTcpServer
+    {
         private static int port = 9000;
         private static TcpListener server = null;
         private static byte[] recBuffer = new byte[1000];
@@ -15,23 +17,20 @@ namespace TcpFileServer{
         private static byte[] outputFile = new byte[4096];
         private static byte[] outBuf = new byte[1000];
         private static string outMsg = null;
- 
-        public static void Main(string[] args) {
+
+        public static void Main(string[] args)
+        {
             SetupServer();
-            while(true) {
+            while (true)
+            {
                 TcpClient clientHandler = listenForClient();
             }
         }
 
-        private static void SetupServer(){
+        private static void SetupServer()
+        {
             IPAddress localIp = IPAddress.Parse("127.0.0.1");
-            server = new TcpListener(localIp,port);
-
-            if (File.Exists("test.txt")){
-                Console.WriteLine("Yes");
-            } else { 
-                Console.WriteLine("No");
-            }
+            server = new TcpListener(localIp, port);
 
             try
             {
@@ -44,7 +43,8 @@ namespace TcpFileServer{
             }
         }
 
-        private static TcpClient listenForClient(){
+        private static TcpClient listenForClient()
+        {
             Console.WriteLine("Listening...");
 
             TcpClient clientHandler = server.AcceptTcpClient(); //returns the connected TCP client object
@@ -55,7 +55,8 @@ namespace TcpFileServer{
 
             Console.WriteLine("Received from client: '{0}' with length {1}", receivedString, receivedString.Length.ToString());
 
-            if (File.Exists(receivedString)) {
+            if (File.Exists(receivedString))
+            {
                 outputFile = File.ReadAllBytes(receivedString);
                 Console.WriteLine("File is {0} bytes long", outputFile.Length.ToString());
                 // int numberOfPackages = (int)Math.Ceiling((double)outputFile.Length/1000);
@@ -69,15 +70,18 @@ namespace TcpFileServer{
                 byte[] outBuf = Encoding.ASCII.GetBytes(outMsg);
                 dataStream.Write(outBuf, 0, outBuf.Length);
 
-                bytesRead = dataStream.Read(recBuffer,0,recBuffer.Length); //Get acknowledgement
-                receivedString = Encoding.ASCII.GetString(recBuffer,0,bytesRead);
-                if (receivedString == "1") {// if ack is true
+                bytesRead = dataStream.Read(recBuffer, 0, recBuffer.Length); //Get acknowledgement
+                receivedString = Encoding.ASCII.GetString(recBuffer, 0, bytesRead);
+                if (receivedString == "1")
+                {// if ack is true
                     Console.WriteLine("Received acknowledgement from client. Sending file");
-                    dataStream.Write(outputFile,0,outputFile.Length);
-                 }
-            } else {
+                    dataStream.Write(outputFile, 0, outputFile.Length);
+                }
+            }
+            else
+            {
                 outBuf = Encoding.ASCII.GetBytes("0");
-                dataStream.Write(outBuf,0,outBuf.Length); //Write a 0 signaling file doesn't exist or is empty
+                dataStream.Write(outBuf, 0, outBuf.Length); //Write a 0 signaling file doesn't exist or is empty
             }
 
             return clientHandler;
