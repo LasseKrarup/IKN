@@ -51,6 +51,7 @@ namespace UDP
                 else if (receivedString == "u")
                 {
                     data = File.ReadAllBytes("/proc/uptime");
+                    Console.WriteLine(Encoding.ASCII.GetString(data, 0, data.Length));
                     udpSocket.Send(data, data.Length, client);
                 }
                 else
