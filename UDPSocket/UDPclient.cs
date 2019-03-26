@@ -53,7 +53,7 @@ namespace UDP
                     { //if OKAY response
                         // Get file
                         receiveBytes = udpClient.Receive(ref server);
-                        File.WriteAllBytes("received_" + path, truncatedBuffer);
+                        File.WriteAllBytes("received_" + path, receivedBytes);
                     }
                 }
 
