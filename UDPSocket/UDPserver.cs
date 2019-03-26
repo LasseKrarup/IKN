@@ -45,7 +45,11 @@ namespace UDP
                 receivedString = Encoding.ASCII.GetString(data, 0, data.Length).ToLower();
                 if (receivedString == "l")
                 {
-                    data = File.ReadAllBytes("/proc/loadavg");
+                    // Open the file into a StreamReader
+                    StreamReader file = File.OpenText("/proc/loadavg");
+                    // Read the file into a string
+                    data = Encoding.ASCII.GetBytes(file.ReadToEnd());
+                    // Send data
                     udpSocket.Send(data, data.Length, client);
                 }
                 else if (receivedString == "u")
@@ -54,7 +58,7 @@ namespace UDP
                     StreamReader file = File.OpenText("/proc/uptime");
                     // Read the file into a string
                     data = Encoding.ASCII.GetBytes(file.ReadToEnd());
-                    Console.WriteLine(Encoding.ASCII.GetString(data, 0, data.Length));
+                    // Send data
                     udpSocket.Send(data, data.Length, client);
                 }
                 else
