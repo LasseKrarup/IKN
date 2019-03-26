@@ -49,23 +49,13 @@ namespace UDP
                     receiveBytes = udpClient.Receive(ref server);
                     returnData = Encoding.ASCII.GetString(receiveBytes, 0, receiveBytes.Length);
                     Console.WriteLine("Received response from {0}: {1}", server.ToString(), returnData);
-                    if (returnData == "200")
-                    { //if OKAY response
-                        // //send ack
-                        // string ack = "ack";
-                        // sendBytes = Encoding.ASCII.GetBytes(ack, 0, ack.Length);
-                        // udpClient.Send(sendBytes, sendBytes.Length);
-                        // Get file
-                        receiveBytes = udpClient.Receive(ref server);
-                        File.WriteAllBytes("received_file", receiveBytes);
-                    }
-                    else if (returnData == "400")
+                    if (returnData == "400")
                     {
                         Console.WriteLine("Bad request");
                     }
                     else
                     {
-                        Console.WriteLine("Unknown response!");
+                        Console.WriteLine("Received: {0}", returnData);
                     }
                 }
 

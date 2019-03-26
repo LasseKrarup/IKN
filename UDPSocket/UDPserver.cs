@@ -45,15 +45,11 @@ namespace UDP
                 receivedString = Encoding.ASCII.GetString(data, 0, data.Length).ToLower();
                 if (receivedString == "l")
                 {
-                    data = Encoding.ASCII.GetBytes("200");
-                    udpSocket.Send(data, data.Length, client);
                     data = File.ReadAllBytes("/proc/loadavg");
                     udpSocket.Send(data, data.Length, client);
                 }
                 else if (receivedString == "u")
                 {
-                    data = Encoding.ASCII.GetBytes("200");
-                    udpSocket.Send(data, data.Length, client);
                     data = File.ReadAllBytes("/proc/uptime");
                     udpSocket.Send(data, data.Length, client);
                 }
