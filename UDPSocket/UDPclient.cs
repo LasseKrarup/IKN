@@ -48,7 +48,6 @@ namespace UDP
                     // Get response
                     receiveBytes = udpClient.Receive(ref server);
                     returnData = Encoding.ASCII.GetString(receiveBytes, 0, receiveBytes.Length);
-                    Console.WriteLine("Received response from {0}: {1}", server.ToString(), returnData);
                     if (returnData == "400")
                     {
                         Console.WriteLine("Bad request");
