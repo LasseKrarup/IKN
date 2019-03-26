@@ -45,16 +45,23 @@ namespace UDP
                 receivedString = Encoding.ASCII.GetString(data, 0, data.Length).ToLower();
                 if (receivedString == "l")
                 {
+                    data = Encoding.ASCII.GetBytes("200");
+                    udpSocket.Send(data, data.Length, client);
                     data = File.ReadAllBytes("/proc/loadavg");
+                    udpSocket.Send(data, data.Length, client);
                 }
                 else if (receivedString == "u")
                 {
+                    data = Encoding.ASCII.GetBytes("200");
+                    udpSocket.Send(data, data.Length, client);
                     data = File.ReadAllBytes("/proc/uptime");
                 }
-
-                // If command is neither l, L, u or U, then echo back the received request
-
-                udpSocket.Send(data, data.Length, client);
+                else
+                {
+                    // If command is neither l, L, u or U, send "Bad Request"
+                    data = Encoding.ASCII.GetBytes("400");
+                    udpSocket.Send(data, data.Length, client);
+                }
             }
         }
     }
