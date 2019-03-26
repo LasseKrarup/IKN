@@ -55,6 +55,7 @@ namespace UDP
                     data = Encoding.ASCII.GetBytes("200");
                     udpSocket.Send(data, data.Length, client);
                     data = File.ReadAllBytes("/proc/uptime");
+                    udpSocket.Send(data, data.Length, client);
                 }
                 else
                 {

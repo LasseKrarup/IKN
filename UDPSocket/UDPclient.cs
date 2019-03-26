@@ -51,6 +51,10 @@ namespace UDP
                     Console.WriteLine("Received response from {0}: {1}", server.ToString(), returnData);
                     if (returnData == "200")
                     { //if OKAY response
+                        // //send ack
+                        // string ack = "ack";
+                        // sendBytes = Encoding.ASCII.GetBytes(ack, 0, ack.Length);
+                        // udpClient.Send(sendBytes, sendBytes.Length);
                         // Get file
                         receiveBytes = udpClient.Receive(ref server);
                         File.WriteAllBytes("received_file", receiveBytes);
