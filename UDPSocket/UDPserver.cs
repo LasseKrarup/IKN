@@ -9,7 +9,7 @@ namespace UDP
     public class UDPServer
     {
         private static int PORT = 9000;
-        private string receivedString;
+        private static string receivedString;
         public static void Main()
         {
             byte[] data = new byte[1024];

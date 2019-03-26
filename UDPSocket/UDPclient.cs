@@ -9,7 +9,7 @@ namespace UDP
     public class myUdpClient
     {
         private static int PORT = 9000;
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
             if (args.Length == 0)
             {
@@ -46,10 +46,12 @@ namespace UDP
                 }
 
                 udpClient.Close();
+                return 0;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                return 1;
             }
         }
     }
