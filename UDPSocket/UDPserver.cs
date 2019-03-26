@@ -40,7 +40,7 @@ namespace UDP
             {
                 // Handle requests
                 data = udpSocket.Receive(ref client);
-                Console.WriteLine("Received message from {0}", client.ToString());
+                Console.WriteLine("Received message {0} from {1}", Encoding.ASCII.GetString(data), client.ToString());
 
                 receivedString = Encoding.ASCII.GetString(data, 0, data.Length).ToLower();
                 if (receivedString == "l")

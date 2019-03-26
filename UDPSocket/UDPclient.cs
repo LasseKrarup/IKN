@@ -41,8 +41,20 @@ namespace UDP
                 Console.WriteLine("Write a request for the server: ");
                 while (true)
                 {
+                    // Send request
                     sendBytes = Encoding.ASCII.GetBytes(Console.ReadLine());
                     udpClient.Send(sendBytes, sendBytes.Length);
+
+                    // Get response
+                    receiveBytes = udpClient.Receive(ref server);
+                    string returnData = Encoding.ASCII.GetString(receiveBytes);
+                    Console.WriteLine("Received response from {0}: {1}", server.ToString(), returnData);
+                    if (returnData == "200")
+                    { //if OKAY response
+                        // Get file
+                        receiveBytes = udpClient.Receive(ref server);
+                        File.WriteAllBytes("received_" + path, truncatedBuffer);
+                    }
                 }
 
                 udpClient.Close();
