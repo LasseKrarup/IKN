@@ -29,8 +29,7 @@ namespace TcpFileServer
 
         private static void SetupServer()
         {
-            IPAddress localIp = IPAddress.Parse("127.0.0.1");
-            server = new TcpListener(localIp, port);
+            server = new TcpListener(IPAddress.Any, port);
 
             try
             {
